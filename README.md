@@ -227,10 +227,14 @@ Al tratarse de una señal emulada, no se observan cambios significativos en las 
 ### PARTE B – Captura de la señal de paciente 
 a. Colocar los electrodos sobre el grupo muscular definido por el grupo (por 
 ejemplo, antebrazo o bíceps). 
+
 b. Registrar la señal EMG de un paciente o voluntario sano realizando 
 contracciones repetidas hasta la fatiga (o la falla). 
-c. Aplicar un filtro pasa banda (20–450 Hz) para eliminar ruido y artefactos. 
+
+c. Aplicar un filtro pasa banda (20–450 Hz) para eliminar ruido y artefactos.
+
 d. Dividir la señal en el número de contracciones realizadas.
+
 e. Calcular para cada contracción: 
 -Frecuencia media  
 -Frecuencia mediana  
@@ -297,15 +301,19 @@ Este filtrado tiene como objetivo eliminar las componentes que no corresponden a
 ### PARTE C – Análisis espectral mediante FFT 
 a. Aplicar la Transformada Rápida de Fourier (FFT) a cada contracción de la 
 señal EMG real. 
+
 b. Graficar el espectro de amplitud (frecuencia vs. magnitud) para observar 
 cómo cambia el contenido de frecuencia. 
-c. Comparar los espectros de las primeras contracciones con los de las últimas. 
+
+c. Comparar los espectros de las primeras contracciones con los de las últimas.
+
 d. Identificar la reducción del contenido de alta frecuencia asociada con la fatiga 
 muscular.  
+
 e. Calcular y discutir el desplazamiento del pico espectral y su relación con el 
 esfuerzo sostenido. 
-f. 
-Redactar conclusiones sobre el uso del análisis espectral como herramienta 
+
+f. Redactar conclusiones sobre el uso del análisis espectral como herramienta 
 diagnóstica en electromiografía.
 
 
