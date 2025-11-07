@@ -293,7 +293,7 @@ diagnóstica en electromiografía.
 ## Parte B
 
 ## Parte C
-En esta parte se aplico la transformada rapida de fourier a cada contracción tomada
+En esta parte se aplico la transformada rapida de fourier a cada contracción tomada en la señal EMG real capturada durante el laboratorio 
 
 
 
