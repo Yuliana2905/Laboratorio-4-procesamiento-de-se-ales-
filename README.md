@@ -12,6 +12,16 @@ Durante el desarrollo del laboratorio se realiza la adquisición, filtrado y an�
 
 <img width="474" height="632" alt="image" src="https://github.com/user-attachments/assets/45a2c3de-f478-46d5-894c-fc587f97d126" />
 
+# Objetivos: 
+- Aplicar el filtrado de señales continuas para procesar una señal electromiográfica 
+(EMG).
+- Detectar la aparición de fatiga muscular mediante el análisis espectral de 
+contracciones musculares individuales. 
+- Comparar el comportamiento de una señal emulada y una señal real en términos 
+de frecuencia media y mediana. 
+- Emplear herramientas computacionales para el procesamiento, segmentación y 
+análisis de señales biomédicas.
+
 
 # Marco teorico:
 
@@ -69,3 +79,52 @@ P(fi) es la densidad espectral de potencia en la frecuencia
 Es aquella frecuencia que divide el área bajo la curva de potencia en dos partes iguales:
 
 <img width="384" height="86" alt="image" src="https://github.com/user-attachments/assets/545a92d6-cff9-4d7c-822a-79a81988110e" />
+
+Durante la fatiga muscular, ambas frecuencias tienden a desplazarse hacia valores menores, indicando una reducción en la velocidad de conducción de las fibras musculares y un cambio en el reclutamiento de unidades motoras.
+
+## Fatiga muscular
+
+La fatiga se define como la disminución de la capacidad del músculo para generar fuerza. En el contexto del análisis EMG, se manifiesta como una disminución del contenido de alta frecuencia en el espectro, producto del enlentecimiento de la propagación del potencial de acción. Este fenómeno puede ser cuantificado observando la tendencia decreciente de 
+𝑓𝑚𝑒d y 𝑓𝑚𝑒𝑑 a lo largo de contracciones repetidas.
+
+<img width="379" height="384" alt="image" src="https://github.com/user-attachments/assets/cb5acae4-a8e0-4720-8383-1d62fc5e6d48" />
+
+
+# Metodología Experimental
+
+El desarrollo experimental se dividió en tres etapas principales: captura de señal emulada, adquisición de señal real y análisis espectral mediante FFT.
+
+### 1. Captura de señal emulada
+
+Se configuró el generador de señales biológicas en modo EMG para simular aproximadamente cinco contracciones musculares voluntarias.
+
+Se registró la señal obtenida mediante un sistema de adquisición (DAQ).
+
+La señal fue segmentada en cinco partes, cada una correspondiente a una contracción.
+
+Para cada segmento, se calculó la frecuencia media y mediana utilizando la densidad espectral de potencia obtenida mediante FFT.
+
+Se representó gráficamente la evolución de dichas frecuencias para observar tendencias.
+
+#### 2. Captura de señal real
+
+Se colocaron tres electrodos de superficie sobre un grupo muscular (por ejemplo, el bíceps), asegurando el contacto con gel conductor y la piel limpia.
+
+El voluntario realizó contracciones repetidas hasta la aparición de fatiga.
+
+La señal capturada fue filtrada con un pasa banda de 20–450 Hz para eliminar ruido.
+
+Se segmentó la señal en las contracciones individuales y se calcularon 
+𝑓𝑚𝑒d y 𝑓𝑚𝑒𝑑 de cada una.
+
+Los resultados se graficaron para analizar la evolución de las frecuencias en función del esfuerzo.
+
+### 3. Análisis espectral (FFT)
+
+Se aplicó la Transformada Rápida de Fourier (FFT) a cada contracción de la señal real.
+
+Se obtuvieron los espectros de amplitud para las contracciones iniciales y finales.
+
+Se compararon los resultados observando la reducción del contenido de alta frecuencia en las últimas contracciones.
+
+Se discutió la relación entre estos cambios espectrales y los mecanismos fisiológicos de la fatiga muscular.
