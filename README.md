@@ -4,4 +4,4 @@
 ## ·Liseth Yuliana Clavijo 
 ## ·Maria Camila Rodriguez
 ## ·Adriana Valentina Alarcon 
-## Fecha: Septiembre 2025
+## Fecha: Octubre 2025
