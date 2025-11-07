@@ -296,6 +296,100 @@ Este filtrado tiene como objetivo eliminar las componentes que no corresponden a
 <20 Hz son por lo general respiración o movimientos de la voluntaria
 450 Hz ruido natural de la corriente eléctrica El uso de filtfilt es para que se filtre sin que haya un desfase, manteniendo así la alineación temporal de la señal El filtro implementado es de tipo Butterworth, este se implementó por su respuesta plana, sin ondulaciones y su atenuación progresiva que no cambia la morfología de la señal. Este filtro mantiene la forma real de la señal muscular y mininiza el riesgo de amplificar ruidos no deseados.
 
+## Código 
+```
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from scipy.signal import butter, filtfilt, welch
+
+
+ruta = '/content/Captura_1_REAL.txt'
+data = np.loadtxt(ruta, skiprows=1)
+tiempo = data[:, 0]
+voltaje = data[:, 1]
+
+mask = tiempo <= 30
+tiempo = tiempo[mask]
+voltaje = voltaje[mask]
+
+fs = 1 / (tiempo[1] - tiempo[0])
+
+ruta = '/content/Captura_1_REAL.txt'
+data = np.loadtxt(ruta, skiprows=1)
+tiempo = data[:, 0]
+voltaje = data[:, 1]
+
+fs = 1 / (tiempo[1] - tiempo[0])
+print(f"Frecuencia de muestreo estimada: {fs:.1f} Hz")
+
+plt.figure(figsize=(12, 4))
+plt.plot(tiempo, voltaje, color='crimson', linewidth=0.6)
+plt.title("Señal EMG Original")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Voltaje (V)")
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+lowcut = 20
+highcut = 450
+order = 1
+nyquist = fs / 2
+low = lowcut / nyquist
+high = highcut / nyquist
+b, a = butter(order, [low, high], btype='band')
+
+signal_filtrada = filtfilt(b, a, voltaje)
+
+plt.figure(figsize=(12,5))
+plt.plot(tiempo, voltaje, alpha=0.6, label='Señal original')
+plt.plot(tiempo, signal_filtrada, label='Señal filtrada (20–450 Hz)', color='orange')
+plt.title('Señal EMG Original vs Filtrada')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Voltaje (V)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+n = len(signal_filtrada)
+fft_vals = np.fft.fft(signal_filtrada)
+fft_freq = np.fft.fftfreq(n, d=1/fs)
+
+mask = fft_freq > 0
+fft_freq = fft_freq[mask]
+fft_magnitude = np.abs(fft_vals[mask]) * (2 / n)
+
+plt.figure(figsize=(10,5))
+plt.plot(fft_freq, fft_magnitude, color='darkblue')
+plt.title("Espectro de Frecuencia (FFT) de la Señal Filtrada")
+plt.xlabel("Frecuencia (Hz)")
+plt.ylabel("Amplitud")
+plt.xlim(0, 300)
+plt.grid(True)
+plt.show()
+
+segmentos = np.array_split(signal_filtrada, 5)
+
+resultados = []
+for i, seg in enumerate(segmentos, start=1):
+    f, Pxx = welch(seg, fs=fs, nperseg=1024)
+    f_media = np.sum(f * Pxx) / np.sum(Pxx)
+    energia_acum = np.cumsum(Pxx)
+    f_mediana = f[np.where(energia_acum >= energia_acum[-1]/2)[0][0]]
+    resultados.append([i, f_media, f_mediana])
+
+tabla = pd.DataFrame(resultados, columns=['Contracción', 'Frecuencia Media (Hz)', 'Frecuencia Mediana (Hz)'])
+display(tabla)
+
+plt.figure(figsize=(8,4))
+plt.plot(tabla['Contracción'], tabla['Frecuencia Media (Hz)'], 'o-', label='Frecuencia media')
+plt.plot(tabla['Contracción'], tabla['Frecuencia Mediana (Hz)'], 's--', label='Frecuencia mediana')
+plt.title("Evolución de Frecuencias durante la Fatiga Muscular")
+plt.xlabel("Contracción")
+plt.ylabel("Frecuencia (Hz)")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
 
 ### PARTE C – Análisis espectral mediante FFT 
 a. Aplicar la Transformada Rápida de Fourier (FFT) a cada contracción de la 
