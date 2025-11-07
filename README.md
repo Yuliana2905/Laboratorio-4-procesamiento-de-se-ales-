@@ -458,6 +458,10 @@ tabla de contracciones y frecuencias
 graficas 
 <img width="1232" height="754" alt="image" src="https://github.com/user-attachments/assets/3566be62-49c8-4417-b113-f17683bdda3d" />
 
+graficas de contracciones espectros
+<img width="1163" height="593" alt="image" src="https://github.com/user-attachments/assets/b7ca8ec0-e280-43a3-9a70-145d50b2e229" />
+
+
 
 
 # Bibliografía
