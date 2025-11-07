@@ -268,7 +268,26 @@ Imagen 4.Señal EMG obtenida
 La señal original (en color azul) presenta una amplitud mayor y un nivel medio desplazado hacia valores positivos, lo cual indica la presencia de un componente de corriente continua (DC) y de ruido de baja frecuencia producido por el movimiento o interferencias externas. Además, se observan picos irregulares y variaciones bruscas que dificultan la interpretación de la actividad muscular real.
 
 Por otro lado, la señal filtrada (en color naranja) se encuentra centrada alrededor de cero voltios y presenta una amplitud más estable. El filtrado pasa banda eliminó los componentes de baja frecuencia (<20 Hz), asociados a artefactos por movimiento, y los de alta frecuencia (>450 Hz), relacionados con el ruido electrónico. De esta forma, se conserva únicamente el rango de frecuencia donde se encuentra la información útil del potencial eléctrico muscular.
+### d) Espectro de frecuencia
+<img width="670" height="352" alt="image" src="https://github.com/user-attachments/assets/63ddd06c-4be4-439f-9218-5044fbff9095" />
 
+Se aplicó la Transformada Rápida de Fourier (FFT) para trasladar la señal del dominio temporal al dominio frecuencial, lo que permitió determinar las regiones donde se concentraba la mayor parte de la energía muscular. En las señales EMG, la energía principal suele ubicarse entre los 40 y 150 Hz, aunque pueden aparecer otros picos dependiendo del músculo analizado y del tipo de contracción realizada.
+
+### e) Tabla con los calculos de las contracciones
+<img width="386" height="141" alt="image" src="https://github.com/user-attachments/assets/7270aca9-2197-4792-9eb6-f361e351b826" />
+
+La tabla presenta las frecuencias medias y medianas calculadas para cinco contracciones musculares.
+Las frecuencias medias se encuentran entre 44.57 Hz y 48.91 Hz,
+Las frecuencias medianas entre 39.02 Hz y 48.82 Hz.
+Estos valores indican que la distribución de energía de la señal EMG se mantiene dentro del rango típico de 40 a 60 Hz, coherente con la literatura para señales musculares.
+La consistencia de los valores entre contracciones sugiere que el músculo analizado mantiene un patrón de activación estable, sin variaciones bruscas que indiquen fatiga o interferencias externas. En particular, las contracciones 1 y 5 presentan frecuencias medianas ligeramente más altas (~48 Hz), lo que podría reflejar una mayor activación o fuerza de contracción en esos casos.
+### f) Grafica de los resultados y fatiga muscular 
+<img width="545" height="289" alt="image" src="https://github.com/user-attachments/assets/931a3633-a812-47a1-a275-ff0ce47fe9b5" />
+
+
+
+
+## Análisis
 Este filtrado tiene como objetivo eliminar las componentes que no corresponden a la actividad muscular.
 
 <20 Hz son por lo general respiración o movimientos de la voluntaria
