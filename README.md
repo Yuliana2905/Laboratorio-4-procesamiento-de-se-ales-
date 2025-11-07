@@ -452,7 +452,8 @@ else:
     print("Tendencia: sin cambio claro en frecuencia media.")
 ```
 
-
+tabla de contracciones y voltajes 
+<img width="889" height="415" alt="image" src="https://github.com/user-attachments/assets/5a33457f-c610-40cb-82a1-26935c4e4c22" />
 
 
 # Bibliografía
