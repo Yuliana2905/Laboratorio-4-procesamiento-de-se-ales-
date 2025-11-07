@@ -539,9 +539,12 @@ display(df_picos.head())
 ```
 <img width="552" height="350" alt="image" src="https://github.com/user-attachments/assets/9c5fd3b1-57d1-45f6-b5c9-011bf411df29" />
 
+<img width="164" height="112" alt="image" src="https://github.com/user-attachments/assets/dc9e1948-d9ed-4166-afa2-81154c9250d4" />
 
+en la grafica temporra EMG filtrado se puede observar una señal que es oscilantes con picos de actividad correspondientes a las contracciones musculares se observa que al inicio los piscos uslesn ser mas definidos demayor amplitud hacie el final tienden a disminuir o vokverse un poco mas irregulares debido a la fatiga muscular 
+en la grafica de escros FFT cada contraccion presenta una distribucion de energia sobre un rango de frecuencias, la primera de las contracciones muestran mayor contenido en frecuencuas altas de 80 - 120 HZ mienstras que las utlimas contracciones desplazan su pico hacia frecuencias mas bajas de 40 - 60 Hz este desplazamiento represneta un areduccion en la freciencia media del espectro que se asocia con la fatiga musculat esto ocurre porque las fibras musculares rapidas que son las de mayores frecuencias se agotan antes y la actividad electrica pada a depender mas de las fibras lentas.
 
-
+El cálculo del pico espectral permitió cuantificar los cambios en la frecuencia dominante de cada contracción, el análisis mostró una disminución progresiva del pico espectral, se puede interpretar como evidencia de fatiga neuromuscular.
 
 # Bibliografía
 
