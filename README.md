@@ -287,9 +287,7 @@ Estos valores indican que la distribución de energía de la señal EMG se manti
 La consistencia de los valores entre contracciones sugiere que el músculo analizado mantiene un patrón de activación estable, sin variaciones bruscas que indiquen fatiga o interferencias externas. En particular, las contracciones 1 y 5 presentan frecuencias medianas ligeramente más altas (~48 Hz), lo que podría reflejar una mayor activación o fuerza de contracción en esos casos.
 ### f) Grafica de los resultados y fatiga muscular 
 <img width="545" height="289" alt="image" src="https://github.com/user-attachments/assets/931a3633-a812-47a1-a275-ff0ce47fe9b5" />
-
-
-
+La gráfica evidencia un proceso de fatiga temporal caracterizado por una disminución inicial de las frecuencias (especialmente la mediana) y una recuperación posterior. Esto sugiere que el músculo experimentó un agotamiento transitorio de sus unidades motoras, seguido por una fase de recuperación o compensación.
 
 ## Análisis
 Este filtrado tiene como objetivo eliminar las componentes que no corresponden a la actividad muscular.
