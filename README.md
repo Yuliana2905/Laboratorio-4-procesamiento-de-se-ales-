@@ -640,14 +640,6 @@ en la grafica de escros FFT cada contraccion presenta una distribucion de energi
 
 El cálculo del pico espectral permitió cuantificar los cambios en la frecuencia dominante de cada contracción, el análisis mostró una disminución progresiva del pico espectral, se puede interpretar como evidencia de fatiga neuromuscular.
 
-# Diagramas de flujo 
-## Parte A 
-
-
-## Parte B
-
-## Parte C
-
 
 # Bibliografía
 
