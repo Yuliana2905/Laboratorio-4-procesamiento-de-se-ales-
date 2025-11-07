@@ -461,6 +461,21 @@ graficas
 graficas de contracciones espectros
 <img width="1163" height="593" alt="image" src="https://github.com/user-attachments/assets/b7ca8ec0-e280-43a3-9a70-145d50b2e229" />
 
+Resumen estadístico (frecuencia pico):
+count    460.000000
+mean      47.499650
+std       14.324735
+min       15.313936
+25%       30.674847
+50%       46.012270
+75%       61.349693
+max       76.687117
+Name: Frecuencia_pico_Hz, dtype: float64
+
+Frecuencia media promedio (primer 46 contr.): 48.44 Hz
+Frecuencia media promedio (último 46 contr.): 46.98 Hz
+Tendencia: disminución de la frecuencia media → indicativo de fatiga.
+
 
 
 
