@@ -128,3 +128,7 @@ Se obtuvieron los espectros de amplitud para las contracciones iniciales y final
 Se compararon los resultados observando la reducción del contenido de alta frecuencia en las últimas contracciones.
 
 Se discutió la relación entre estos cambios espectrales y los mecanismos fisiológicos de la fatiga muscular.
+
+
+# Procedimiento y resultados:
+
