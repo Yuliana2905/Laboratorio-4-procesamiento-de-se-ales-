@@ -645,7 +645,8 @@ El cálculo del pico espectral permitió cuantificar los cambios en la frecuenci
 ### Diagrama de flujo parte A 
 ![Imagen de WhatsApp 2025-11-06 a las 23 40 41_390a7e7f](https://github.com/user-attachments/assets/42c78ec9-c067-4858-b849-f72c054df459)
 ### Diagrama de flujo parte B
-
+<img width="296" height="502" alt="image" src="https://github.com/user-attachments/assets/97b0e1a4-9a9b-4aaa-ad75-5152d5a09ced" />
+### Diagrama de flujo parte C
 # Bibliografía
 
 De Luca, C. J. (2002). Surface electromyography: Detection and recording. DelSys Incorporated. Recuperado de https://www.delsys.com/
