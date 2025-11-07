@@ -145,13 +145,40 @@ f.
 Analizar cómo varían estas frecuencias a lo largo de las contracciones 
 simuladas.
 ## Procedimiento 
-Se utilizó un generador de señales biológicas para emular la actividad eléctrica muscular (EMG). En el canal 1 se configuró el modo Arbitrary (Arb) con la función EMG, estableciendo una frecuencia portadora de 1 Hz y una frecuencia de modulación de 1 MHz en modo AM (amplitud modulada), con una profundidad de modulación del 1 %. La amplitud se fijó en 5 Vpp, generando una señal que simula contracciones musculares periódicas.
+Se utilizó un generador de señales biológicas para simular la actividad eléctrica muscular (EMG). En el canal 1 se configuró el modo Arbitrary (Arb) con la función EMG, estableciendo una frecuencia portadora de 1 Hz y una frecuencia de modulación de 1 MHz en modo AM (amplitud simulada), con una profundidad de modulación del 1 %. La amplitud se fijó en 5 Vpp, generando una señal que simula contracciones musculares periódicas.
 
 La señal emulada se adquirió mediante el sistema de adquisición de datos (DAQ) y se almacenó para su análisis digital. Posteriormente, se segmentó en cinco contracciones simuladas, cada una representando un ciclo de activación muscular.
 
 Para cada contracción se realizó el análisis espectral, donde se determinaron los valores de frecuencia media y frecuencia mediana, los cuales fueron organizados en una tabla y graficados para observar su evolución a lo largo de las contracciones.
 
-<img width="866" height="393" alt="image" src="https://github.com/user-attachments/assets/5855234e-9efd-45b5-9809-5d31436af023" />
+<img width="1016" height="301" alt="image" src="https://github.com/user-attachments/assets/7c90958a-4f0c-4318-8d8f-67f502ca8ea2" />
+
+Imagen 1. Señal obtenida por medio del generador de señales biologicas
+
+Posteriormente se realiza el cálculo de la frecuencia media y la frecuencia mediana para cada contracción lo cual permite caracterizar el contenido espectral de la señal EMG, es decir cómo se distribuye la energía en las diferentes frecuencias. Al calcular ambas frecuencias para cada una de las cinco contracciones simuladas, se obtiene una descripción cuantitativa de cómo varía el comportamiento frecuencial de la señal EMG a lo largo del tiempo. Esto permite analizar si existen cambios progresivos en la activación simulada del músculo o si la señal mantiene una respuesta estable en todas las contracciones.
+
+```
+results = []
+for seg in segments:
+    f, Pxx = signal.welch(seg, fs, nperseg=1024)
+    mean_freq = np.sum(f * Pxx) / np.sum(Pxx)
+    median_freq = f[np.where(np.cumsum(Pxx) >= np.sum(Pxx) / 2)[0][0]]
+    results.append([mean_freq, median_freq])
+
+df = pd.DataFrame(results, columns=["Frecuencia Media (Hz)", "Frecuencia Mediana (Hz)"])
+df.index = [f"Contracción {i+1}" for i in range(len(segments))]
+
+display(df)
+```
+
+<img width="502" height="108" alt="image" src="https://github.com/user-attachments/assets/8e790466-9474-452b-bb3c-90e425805f22" />
+Imagen 2.Tabla de valores 
+
+
+En la tabla se presentan los valores de frecuencia media y frecuencia mediana correspondientes a cinco contracciones musculares extraídas de la señal EMG. Estos parámetros reflejan la distribución de energía en el espectro de la señal y están directamente relacionados con la actividad eléctrica de las fibras musculares durante la contracción.
+Los valores de frecuencia media y frecuencia mediana obtenidos para las cinco contracciones emuladas se mantienen prácticamente constantes, con ligeras variaciones dentro de un rango estrecho (entre 98 y 99 Hz para la frecuencia media y alrededor de 95 Hz para la mediana).
+Esto indica que la distribución de energía en el espectro de la señal EMG emulada no presenta cambios significativos entre contracciones, lo que es coherente con una señal generada artificialmente, en la cual no existe fatiga muscular ni variaciones fisiológicas.
+En consecuencia, la estabilidad de estos parámetros confirma que la señal simulada reproduce de manera controlada la actividad eléctrica muscular y permite validar el procedimiento de segmentación y análisis espectral antes de aplicar el mismo método a señales reales.
 
 
 ## Análisis
