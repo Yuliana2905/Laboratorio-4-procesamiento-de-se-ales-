@@ -151,6 +151,16 @@ La señal emulada se adquirió mediante el sistema de adquisición de datos (DAQ
 
 Para cada contracción se realizó el análisis espectral, donde se determinaron los valores de frecuencia media y frecuencia mediana, los cuales fueron organizados en una tabla y graficados para observar su evolución a lo largo de las contracciones.
 
+```
+plt.figure(figsize=(12,3))
+plt.plot(t, data, label="Señal EMG")
+for s, e in segments:
+    plt.axvspan(s/FS, e/FS, color='pink', alpha=0.25)
+plt.xlabel("Tiempo (s)")
+plt.title("Señal EMG Segmentada en 5 Contracciones")
+plt.show()
+
+```
 <img width="1016" height="301" alt="image" src="https://github.com/user-attachments/assets/7c90958a-4f0c-4318-8d8f-67f502ca8ea2" />
 
 Imagen 1. Señal obtenida por medio del generador de señales biologicas
@@ -158,27 +168,27 @@ Imagen 1. Señal obtenida por medio del generador de señales biologicas
 Posteriormente se realiza el cálculo de la frecuencia media y la frecuencia mediana para cada contracción lo cual permite caracterizar el contenido espectral de la señal EMG, es decir cómo se distribuye la energía en las diferentes frecuencias. Al calcular ambas frecuencias para cada una de las cinco contracciones simuladas, se obtiene una descripción cuantitativa de cómo varía el comportamiento frecuencial de la señal EMG a lo largo del tiempo. Esto permite analizar si existen cambios progresivos en la activación simulada del músculo o si la señal mantiene una respuesta estable en todas las contracciones.
 
 ```
-results = []
-for seg in segments:
-    f, Pxx = signal.welch(seg, fs, nperseg=1024)
-    mean_freq = np.sum(f * Pxx) / np.sum(Pxx)
-    median_freq = f[np.where(np.cumsum(Pxx) >= np.sum(Pxx) / 2)[0][0]]
-    results.append([mean_freq, median_freq])
+for i, (s, e) in enumerate(segments, start=1):
+    seg = data[s:e]
+    meanf, medf = mean_median_freq(seg, FS)
+    results.append([i, meanf, medf])
 
-df = pd.DataFrame(results, columns=["Frecuencia Media (Hz)", "Frecuencia Mediana (Hz)"])
-df.index = [f"Contracción {i+1}" for i in range(len(segments))]
-
-display(df)
+df = pd.DataFrame(results, columns=["Contracción", "Frecuencia Media (Hz)", "Frecuencia Mediana (Hz)"])
+print(df)
 ```
 
 <img width="502" height="108" alt="image" src="https://github.com/user-attachments/assets/8e790466-9474-452b-bb3c-90e425805f22" />
-Imagen 2.Tabla de valores 
 
 
-En la tabla se presentan los valores de frecuencia media y frecuencia mediana correspondientes a cinco contracciones musculares extraídas de la señal EMG. Estos parámetros reflejan la distribución de energía en el espectro de la señal y están directamente relacionados con la actividad eléctrica de las fibras musculares durante la contracción.
-Los valores de frecuencia media y frecuencia mediana obtenidos para las cinco contracciones emuladas se mantienen prácticamente constantes, con ligeras variaciones dentro de un rango estrecho (entre 98 y 99 Hz para la frecuencia media y alrededor de 95 Hz para la mediana).
-Esto indica que la distribución de energía en el espectro de la señal EMG emulada no presenta cambios significativos entre contracciones, lo que es coherente con una señal generada artificialmente, en la cual no existe fatiga muscular ni variaciones fisiológicas.
-En consecuencia, la estabilidad de estos parámetros confirma que la señal simulada reproduce de manera controlada la actividad eléctrica muscular y permite validar el procedimiento de segmentación y análisis espectral antes de aplicar el mismo método a señales reales.
+Imagen 2.Tabla de valores frecuencia media y frecuencia mediana
+
+
+En la señal EMG real se observa que la frecuencia media presenta valores entre 76 y 78 Hz, mientras que la frecuencia mediana permanece prácticamente constante alrededor de 9.76 Hz.
+Aunque las variaciones son leves, se aprecia una tendencia general al descenso de la frecuencia media conforme avanzan las contracciones. Este comportamiento indica una reducción progresiva del contenido de alta frecuencia en el espectro de la señal, lo cual es un indicador de fatiga muscular.
+
+La disminución de la frecuencia media está asociada con la disminución de la velocidad de conducción de las fibras musculares y con el cambio en el reclutamiento de unidades motoras durante el esfuerzo repetido.
+En contraste con la señal emulada, estos resultados reflejan un proceso fisiológico real, donde el músculo presenta adaptaciones eléctricas al mantener contracciones sostenidas, evidenciando la transición hacia la fatiga.
+
 
 
 ## Análisis
