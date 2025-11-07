@@ -262,6 +262,14 @@ El antebrazo izquierdo, al ser no dominante, presenta menor entrenamiento motor,
 <img width="1001" height="393" alt="image" src="https://github.com/user-attachments/assets/0b5fd095-0ab8-4e83-b845-c0332d573d45" />
 
 Imagen 4.Señal EMG obtenida
+### c) Filtro Pasa banda
+
+<img width="999" height="470" alt="image" src="https://github.com/user-attachments/assets/f311368e-7486-42c1-b89b-f0aafe3d5d08" />
+
+Este filtrado tiene como objetivo eliminar las componentes que no corresponden a la actividad muscular.
+
+<20 Hz son por lo general respiración o movimientos de la voluntaria
+450 Hz ruido natural de la corriente eléctrica El uso de filtfilt es para que se filtre sin que haya un desfase, manteniendo así la alineación temporal de la señal El filtro implementado es de tipo Butterworth, este se implementó por su respuesta plana, sin ondulaciones y su atenuación progresiva que no cambia la morfología de la señal. Este filtro mantiene la forma real de la señal muscular y mininiza el riesgo de amplificar ruidos no deseados.
 
 
 ### PARTE C – Análisis espectral mediante FFT 
