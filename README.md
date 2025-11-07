@@ -151,7 +151,7 @@ La señal emulada se adquirió mediante el sistema de adquisición de datos (DAQ
 
 Para cada contracción se realizó el análisis espectral, donde se determinaron los valores de frecuencia media y frecuencia mediana, los cuales fueron organizados en una tabla y graficados para observar su evolución a lo largo de las contracciones.
 
-``` phython
+```python
 plt.figure(figsize=(12,3))
 plt.plot(t, data, label="Señal EMG")
 for s, e in segments:
@@ -167,7 +167,7 @@ Imagen 1. Señal obtenida por medio del generador de señales biologicas
 
 Posteriormente se realiza el cálculo de la frecuencia media y la frecuencia mediana para cada contracción lo cual permite caracterizar el contenido espectral de la señal EMG, es decir cómo se distribuye la energía en las diferentes frecuencias. Al calcular ambas frecuencias para cada una de las cinco contracciones simuladas, se obtiene una descripción cuantitativa de cómo varía el comportamiento frecuencial de la señal EMG a lo largo del tiempo. Esto permite analizar si existen cambios progresivos en la activación simulada del músculo o si la señal mantiene una respuesta estable en todas las contracciones.
 
-```
+```python
 for i, (s, e) in enumerate(segments, start=1):
     seg = data[s:e]
     meanf, medf = mean_median_freq(seg, FS)
