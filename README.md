@@ -308,6 +308,237 @@ f.
 Redactar conclusiones sobre el uso del análisis espectral como herramienta 
 diagnóstica en electromiografía.
 
+
+El objetivo al aplicar la transformada rápida de Fourier a una señal electromiografía real con el fin de analizar los cambios en el contenido de frecuencia durante múltiples contracciones musculares y determinar como la fatiga muscular afecta la distribución espectral de esta señal.
+Procedimiento.
+ Se trabajo una señal EMG real registrada durante una serie de contracciones musculares voluntarias, el archivo fue cargado en Google Colab
+A partir de los intervalos de tiempo entre estas muestras se estima una frecuencia de muestreo (fs) para así poder reconocer la resolución temporal y espectral de este registro.
+Se aplico un filtro pasa banda de 20 a 450 Hz que corresponde al rango de frecuencias útiles de EMG este con el fin de eliminar ruido de baja frecuencia y altas frecuencias no asociadas con la actividad muscular.
+La señal fue enviada en múltiples segmentos equivalentes, representando diferentes contracciones musculares, cada una de estas fue analizada por separado para observar su comportamiento espectral.
+A cada contracción se le aplico la FFT para obtener el espectro de amplitud entre la frecuencia y la magnitud esto permite visualizar que componentes de frecuencia predominan durante cada una de las contracciones
+
+Para cada contracción se identifica la frecuencia con mayor amplitud la cual indica el componente más dominante del espectro, este valor fue comparado entre contracciones iniciales y finales.
+por utlimo se graficaron los espectros de tres contracciones representativas.
+la primera contraccion inicio del esfuerzo
+la segunda contraccion mitad del esfuerzo
+la ultima contraccion fase de fatiga
+
+
+#codigo 
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt, welch
+
+ruta = '/content/Captura_1_REAL.txt'
+
+data = np.loadtxt(ruta, skiprows=1)
+tiempo = data[:,0]
+voltaje = data[:,1]
+fs = 1.0 / np.mean(np.diff(tiempo))
+print(f"Frecuencia de muestreo estimada: {fs:.1f} Hz")
+
+duracion = 30.0
+mask = tiempo <= duracion
+tiempo_30 = tiempo[mask]
+voltaje_30 = voltaje[mask]
+
+
+lowcut, highcut, order = 20.0, 500.0, 4
+b, a = butter(order, [lowcut/(fs/2), highcut/(fs/2)], btype='band')
+voltaje_filtrado = filtfilt(b, a, voltaje_30)
+
+
+n_contr = 460
+segmentos = np.array_split(voltaje_filtrado, n_contr)
+tiempos_seg = np.array_split(tiempo_30, n_contr)
+print(f"Segments: {len(segmentos)} (longitudes min/max = {min(len(s) for s in segmentos)} / {max(len(s) for s in segmentos)})")
+
+resultados = []
+for i, seg in enumerate(segmentos, start=1):
+    if len(seg) < 4:
+
+        resultados.append([i, np.nan, np.nan, np.nan, np.nan])
+        continue
+
+    nperseg = min(1024, len(seg))
+    f, Pxx = welch(seg, fs=fs, nperseg=nperseg)
+    # frecuencia media (centroide)
+    f_media = np.sum(f * Pxx) / np.sum(Pxx)
+    # frecuencia mediana (50% de energía acumulada)
+    energia_acum = np.cumsum(Pxx)
+    idx_med = np.where(energia_acum >= energia_acum[-1]/2)[0]
+    if idx_med.size == 0:
+        f_med = np.nan
+    else:
+        f_med = f[idx_med[0]]
+    # pico espectral (frecuencia de máxima magnitud)
+    f_pico = f[np.argmax(Pxx)]
+    # proporción de potencia en altas frecuencias (>200 Hz)
+    mask_high = f > 200
+    if np.sum(Pxx) > 0:
+        ratio_high = np.sum(Pxx[mask_high]) / np.sum(Pxx)
+    else:
+        ratio_high = np.nan
+
+    resultados.append([i, f_media, f_med, f_pico, ratio_high])
+
+# Tabla
+df_res = pd.DataFrame(resultados, columns=['Contracción','Frecuencia_media_Hz','Frecuencia_mediana_Hz','Frecuencia_pico_Hz','Ratio_potencia_>200Hz'])
+display(df_res.head(10))
+
+
+plt.figure(figsize=(10,4))
+plt.plot(df_res['Contracción'], df_res['Frecuencia_media_Hz'], '-o', markersize=3, label='Frecuencia media')
+plt.plot(df_res['Contracción'], df_res['Frecuencia_mediana_Hz'], '-s', markersize=3, label='Frecuencia mediana')
+plt.plot(df_res['Contracción'], df_res['Frecuencia_pico_Hz'], '-^', markersize=3, label='Frecuencia pico')
+plt.xlabel('Contracción')
+plt.ylabel('Frecuencia (Hz)')
+plt.title('Evolución de frecuencias por contracción (460)')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
+
+
+plt.figure(figsize=(10,3))
+plt.plot(df_res['Contracción'], df_res['Ratio_potencia_>200Hz'], '-o', markersize=3)
+plt.xlabel('Contracción')
+plt.ylabel('Fracción potencia >200 Hz')
+plt.title('Reducción del contenido de alta frecuencia ( > 200 Hz )')
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
+
+indices_ejemplo = [1, int(n_contr/2), n_contr]
+plt.figure(figsize=(12,6))
+for idx, pos in enumerate(indices_ejemplo, start=1):
+    seg = segmentos[pos-1]
+    nperseg = min(1024, len(seg))
+    f, Pxx = welch(seg, fs=fs, nperseg=nperseg)
+    plt.subplot(3,1,idx)
+    plt.semilogy(f, Pxx, linewidth=0.8)
+    plt.xlim(0, 500)
+    plt.ylabel('PSD')
+    plt.title(f'Contracción {pos} - espectro (Welch)')
+    plt.grid(True, which='both', linestyle='--', alpha=0.5)
+plt.xlabel('Frecuencia [Hz]')
+plt.tight_layout()
+plt.show()
+
+
+print("Resumen estadístico (frecuencia pico):")
+print(df_res['Frecuencia_pico_Hz'].describe())
+
+
+k = max(1, int(0.1 * n_contr))
+prim_mean = np.nanmean(df_res['Frecuencia_media_Hz'][:k])
+ult_mean = np.nanmean(df_res['Frecuencia_media_Hz'][-k:])
+print(f"\nFrecuencia media promedio (primer {k} contr.): {prim_mean:.2f} Hz")
+print(f"Frecuencia media promedio (último {k} contr.): {ult_mean:.2f} Hz")
+if prim_mean > ult_mean:
+    print("Tendencia: disminución de la frecuencia media → indicativo de fatiga.")
+elif prim_mean < ult_mean:
+    print("Tendencia: aumento de la frecuencia media.")
+else:
+    print("Tendencia: sin cambio claro en frecuencia media.")
+```
+
+tabla de contracciones y frecuencias
+<img width="889" height="415" alt="image" src="https://github.com/user-attachments/assets/5a33457f-c610-40cb-82a1-26935c4e4c22" />
+
+graficas 
+<img width="1232" height="754" alt="image" src="https://github.com/user-attachments/assets/3566be62-49c8-4417-b113-f17683bdda3d" />
+
+graficas de contracciones espectros
+<img width="1163" height="593" alt="image" src="https://github.com/user-attachments/assets/b7ca8ec0-e280-43a3-9a70-145d50b2e229" />
+
+Resumen estadístico (frecuencia pico):
+count    460.000000
+mean      47.499650
+std       14.324735
+min       15.313936
+25%       30.674847
+50%       46.012270
+75%       61.349693
+max       76.687117
+Name: Frecuencia_pico_Hz, dtype: float64
+
+Frecuencia media promedio (primer 46 contr.): 48.44 Hz
+Frecuencia media promedio (último 46 contr.): 46.98 Hz
+Tendencia: disminución de la frecuencia media → indicativo de fatiga.
+
+```python
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt
+
+ruta = '/content/Captura_1_REAL.txt'
+data = np.loadtxt(ruta, skiprows=1)
+
+tiempo = data[:, 0]
+voltaje = data[:, 1]
+# frecuencia de muestreo
+fs = 1 / np.mean(np.diff(tiempo))
+print(f"Frecuencia de muestreo estimada: {fs:.2f} Hz")
+
+# 3.  pasa banda (20–450 Hz)
+lowcut, highcut, order = 20, 450, 4
+b, a = butter(order, [lowcut/(fs/2), highcut/(fs/2)], btype='band')
+voltaje_filtrado = filtfilt(b, a, voltaje)
+
+# 4. Segmentado
+n_contr = 460
+segmentos = np.array_split(voltaje_filtrado, n_contr)
+
+# 5. FFT por contracción + Pico espectral
+picos = []
+plt.figure(figsize=(13, 8))
+for i, seg in enumerate(segmentos, start=1):
+
+    N = len(seg)
+    fft_vals = np.fft.fft(seg)
+    fft_freq = np.fft.fftfreq(N, 1/fs)
+
+    mask = fft_freq > 0
+    frecs = fft_freq[mask]
+    amplitud = np.abs(fft_vals[mask])
+
+    # Calcular pico espectral
+    pico = frecs[np.argmax(amplitud)]
+    picos.append(pico)
+
+    # Graficar contracciones: primera, media y última
+    if i in [1, int(n_contr/2), n_contr]:
+        plt.plot(frecs, amplitud, label=f"Contracción {i} (pico={pico:.1f} Hz)")
+
+plt.xlim([0, 450])
+plt.title("FFT de primeras vs últimas contracciones")
+plt.xlabel("Frecuencia (Hz)")
+plt.ylabel("Amplitud")
+plt.legend()
+plt.grid()
+plt.show()
+
+# Tabla de picos para el informe
+df_picos = pd.DataFrame({"Contracción": range(1, n_contr+1),
+                         "Pico espectral (Hz)": picos})
+
+display(df_picos.head())
+
+```
+<img width="552" height="350" alt="image" src="https://github.com/user-attachments/assets/9c5fd3b1-57d1-45f6-b5c9-011bf411df29" />
+
+<img width="164" height="112" alt="image" src="https://github.com/user-attachments/assets/dc9e1948-d9ed-4166-afa2-81154c9250d4" />
+
+en la grafica temporra EMG filtrado se puede observar una señal que es oscilantes con picos de actividad correspondientes a las contracciones musculares se observa que al inicio los piscos uslesn ser mas definidos demayor amplitud hacie el final tienden a disminuir o vokverse un poco mas irregulares debido a la fatiga muscular 
+en la grafica de escros FFT cada contraccion presenta una distribucion de energia sobre un rango de frecuencias, la primera de las contracciones muestran mayor contenido en frecuencuas altas de 80 - 120 HZ mienstras que las utlimas contracciones desplazan su pico hacia frecuencias mas bajas de 40 - 60 Hz este desplazamiento represneta un areduccion en la freciencia media del espectro que se asocia con la fatiga musculat esto ocurre porque las fibras musculares rapidas que son las de mayores frecuencias se agotan antes y la actividad electrica pada a depender mas de las fibras lentas.
+
+El cálculo del pico espectral permitió cuantificar los cambios en la frecuencia dominante de cada contracción, el análisis mostró una disminución progresiva del pico espectral, se puede interpretar como evidencia de fatiga neuromuscular.
+
 # Diagramas de flujo 
 ## Parte A 
 
