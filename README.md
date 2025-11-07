@@ -240,6 +240,30 @@ media y mediana a medida que progresa la fatiga muscular.
 g. Discutir la relación entre los cambios de frecuencia y la fisiología de la fatiga 
 muscular. 
 
+
+#### a) Electrodos
+Ya que no contábamos con el modulo de EMG, se implementó el modulo AD8232 de ECG para poder hacer la captura de la señal electromiografía superficial por medio de electrodos, aprovechando que este modulo tiene la capacidad de detectar el diferencial de potenciales eléctricos en la piel. Los electrodos se colocaron de manera superficial sobre el brazo izquierdo de una paciente sana, naturalmente diestra de 19 años, siguiendo esta disposición:
+
+Electrodo verde (GND): Se ubicó sobre el codo, haciendo de este una referencia eléctrica.
+
+Electrodo rojo: sobre la parte proximal del musculo braquiorradial, cerca al codo.
+
+Electrodo amarillo: posición distal mas proximal a la muñeca.
+
+<img width="800" height="936" alt="image" src="https://github.com/user-attachments/assets/04b950bc-f4df-438e-a9e1-4a1b34a75a7d" />
+
+
+El antebrazo izquierdo, al ser no dominante, presenta menor entrenamiento motor, lo que puede reflejarse en una menor amplitud de señal y una aparición más lenta de la fatiga. Lo cual en ese momento no teníamos conocimiento, pero es un dato importante para la amplitud de la señal.
+
+
+### b) Registro de la señal
+
+
+<img width="1001" height="393" alt="image" src="https://github.com/user-attachments/assets/0b5fd095-0ab8-4e83-b845-c0332d573d45" />
+
+Imagen 4.Señal EMG obtenida
+
+
 ### PARTE C – Análisis espectral mediante FFT 
 a. Aplicar la Transformada Rápida de Fourier (FFT) a cada contracción de la 
 señal EMG real. 
@@ -253,3 +277,30 @@ esfuerzo sostenido.
 f. 
 Redactar conclusiones sobre el uso del análisis espectral como herramienta 
 diagnóstica en electromiografía.
+
+# Diagramas de flujo 
+## Parte A 
+
+
+## Parte B
+
+## Parte C
+
+
+
+
+# Bibliografía
+
+De Luca, C. J. (2002). Surface electromyography: Detection and recording. DelSys Incorporated. Recuperado de https://www.delsys.com/
+
+Merletti, R., & Parker, P. A. (2004). Electromyography: Physiology, engineering, and non-invasive applications. IEEE Press.
+
+Konrad, P. (2005). The ABC of EMG: A practical introduction to kinesiological electromyography. Noraxon Inc.
+
+Clancy, E. A., & Hogan, N. (1999). Relationship between electromyogram and muscle torque: Model formulation and experimental evaluation. IEEE Transactions on Biomedical Engineering, 46(6), 703–711.
+
+González, R., & Jiménez, J. (2017). Procesamiento digital de señales biomédicas. Editorial Universidad Politécnica de Madrid.
+
+De la Torre, A., & Moreno, J. C. (2018). Análisis de señales electromiográficas para la detección de fatiga muscular. Revista Iberoamericana de Ingeniería Biomédica, 9(1), 15–25.
+
+Winter, D. A. (2009). Biomechanics and motor control of human movement (4th ed.). John Wiley & Sons.
