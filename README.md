@@ -537,6 +537,8 @@ df_picos = pd.DataFrame({"Contracción": range(1, n_contr+1),
 display(df_picos.head())
 
 ```
+<img width="552" height="350" alt="image" src="https://github.com/user-attachments/assets/9c5fd3b1-57d1-45f6-b5c9-011bf411df29" />
+
 
 
 
