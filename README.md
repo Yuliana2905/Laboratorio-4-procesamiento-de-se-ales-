@@ -144,6 +144,23 @@ gráficamente la evolución de las frecuencias.
 f. 
 Analizar cómo varían estas frecuencias a lo largo de las contracciones 
 simuladas.
+## Procedimiento 
+Se utilizó un generador de señales biológicas para emular la actividad eléctrica muscular (EMG). En el canal 1 se configuró el modo Arbitrary (Arb) con la función EMG, estableciendo una frecuencia portadora de 1 Hz y una frecuencia de modulación de 1 MHz en modo AM (amplitud modulada), con una profundidad de modulación del 1 %. La amplitud se fijó en 5 Vpp, generando una señal que simula contracciones musculares periódicas.
+
+La señal emulada se adquirió mediante el sistema de adquisición de datos (DAQ) y se almacenó para su análisis digital. Posteriormente, se segmentó en cinco contracciones simuladas, cada una representando un ciclo de activación muscular.
+
+Para cada contracción se realizó el análisis espectral, donde se determinaron los valores de frecuencia media y frecuencia mediana, los cuales fueron organizados en una tabla y graficados para observar su evolución a lo largo de las contracciones.
+
+<img width="866" height="393" alt="image" src="https://github.com/user-attachments/assets/5855234e-9efd-45b5-9809-5d31436af023" />
+
+
+## Análisis
+
+La señal generada mediante modulación en amplitud reproduce de manera controlada la actividad eléctrica que se origina en el músculo durante la contracción. La portadora de alta frecuencia (1 MHz) representa la actividad eléctrica de las fibras musculares, mientras que la señal moduladora de baja frecuencia (1 Hz) simula la contracción y relajación periódica del músculo.
+
+Al tratarse de una señal emulada, no se observan cambios significativos en las frecuencias a lo largo de las contracciones, lo que indica ausencia de fatiga muscular. No obstante, este proceso permite validar la correcta configuración del equipo, la segmentación de la señal y el análisis de su comportamiento espectral, fundamentos esenciales para el estudio de señales EMG reales.
+
+
 
 ### PARTE B – Captura de la señal de paciente 
 a. Colocar los electrodos sobre el grupo muscular definido por el grupo (por 
