@@ -189,6 +189,31 @@ Aunque las variaciones son leves, se aprecia una tendencia general al descenso d
 La disminución de la frecuencia media está asociada con la disminución de la velocidad de conducción de las fibras musculares y con el cambio en el reclutamiento de unidades motoras durante el esfuerzo repetido.
 En contraste con la señal emulada, estos resultados reflejan un proceso fisiológico real, donde el músculo presenta adaptaciones eléctricas al mantener contracciones sostenidas, evidenciando la transición hacia la fatiga.
 
+```python
+plt.figure(figsize=(6,3))
+plt.plot(df["Contracción"], df["Frecuencia Media (Hz)"], marker='o', label="Frecuencia Media")
+plt.plot(df["Contracción"], df["Frecuencia Mediana (Hz)"], marker='s', label="Frecuencia Mediana")
+plt.xlabel("Contracción")
+plt.ylabel("Frecuencia (Hz)")
+plt.title("Evolución de las Frecuencias por Contracción")
+plt.legend()
+plt.grid(alpha=0.4)
+plt.show()
+```
+
+
+<img width="531" height="317" alt="image" src="https://github.com/user-attachments/assets/b4c6d869-197f-41fe-bdd9-7ca050f995d0" />
+
+
+Imagen 3.Evolucion de frecuencias por contracciones
+
+
+Ambas curvas son casi planas, lo que indica poca variación en las frecuencias a lo largo de las contracciones.
+
+La frecuencia media es mucho mayor que la frecuencia mediana, lo cual puede significar que hay valores altos aislados (picos) en la señal que elevan la media pero no afectan tanto la mediana.
+
+En estudios de fatiga muscular, por ejemplo, se esperaría que estas frecuencias disminuyeran con el tiempo; aquí, como se mantienen constantes, se podría concluir que no hay signos claros de fatiga durante las contracciones registradas.
+
 
 
 ## Análisis
