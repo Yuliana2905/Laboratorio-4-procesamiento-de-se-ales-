@@ -330,8 +330,126 @@ la primera contraccion inicio del esfuerzo
 la segunda contraccion mitad del esfuerzo
 la ultima contraccion fase de fatiga
 
-```python
 
+#codigo 
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt, welch
+
+ruta = '/content/Captura_1_REAL.txt'
+
+data = np.loadtxt(ruta, skiprows=1)
+tiempo = data[:,0]
+voltaje = data[:,1]
+fs = 1.0 / np.mean(np.diff(tiempo))
+print(f"Frecuencia de muestreo estimada: {fs:.1f} Hz")
+
+duracion = 30.0
+mask = tiempo <= duracion
+tiempo_30 = tiempo[mask]
+voltaje_30 = voltaje[mask]
+
+
+lowcut, highcut, order = 20.0, 500.0, 4
+b, a = butter(order, [lowcut/(fs/2), highcut/(fs/2)], btype='band')
+voltaje_filtrado = filtfilt(b, a, voltaje_30)
+
+
+n_contr = 460
+segmentos = np.array_split(voltaje_filtrado, n_contr)
+tiempos_seg = np.array_split(tiempo_30, n_contr)
+print(f"Segments: {len(segmentos)} (longitudes min/max = {min(len(s) for s in segmentos)} / {max(len(s) for s in segmentos)})")
+
+resultados = []
+for i, seg in enumerate(segmentos, start=1):
+    if len(seg) < 4:
+
+        resultados.append([i, np.nan, np.nan, np.nan, np.nan])
+        continue
+
+    nperseg = min(1024, len(seg))
+    f, Pxx = welch(seg, fs=fs, nperseg=nperseg)
+    # frecuencia media (centroide)
+    f_media = np.sum(f * Pxx) / np.sum(Pxx)
+    # frecuencia mediana (50% de energía acumulada)
+    energia_acum = np.cumsum(Pxx)
+    idx_med = np.where(energia_acum >= energia_acum[-1]/2)[0]
+    if idx_med.size == 0:
+        f_med = np.nan
+    else:
+        f_med = f[idx_med[0]]
+    # pico espectral (frecuencia de máxima magnitud)
+    f_pico = f[np.argmax(Pxx)]
+    # proporción de potencia en altas frecuencias (>200 Hz)
+    mask_high = f > 200
+    if np.sum(Pxx) > 0:
+        ratio_high = np.sum(Pxx[mask_high]) / np.sum(Pxx)
+    else:
+        ratio_high = np.nan
+
+    resultados.append([i, f_media, f_med, f_pico, ratio_high])
+
+# Tabla
+df_res = pd.DataFrame(resultados, columns=['Contracción','Frecuencia_media_Hz','Frecuencia_mediana_Hz','Frecuencia_pico_Hz','Ratio_potencia_>200Hz'])
+display(df_res.head(10))
+
+
+plt.figure(figsize=(10,4))
+plt.plot(df_res['Contracción'], df_res['Frecuencia_media_Hz'], '-o', markersize=3, label='Frecuencia media')
+plt.plot(df_res['Contracción'], df_res['Frecuencia_mediana_Hz'], '-s', markersize=3, label='Frecuencia mediana')
+plt.plot(df_res['Contracción'], df_res['Frecuencia_pico_Hz'], '-^', markersize=3, label='Frecuencia pico')
+plt.xlabel('Contracción')
+plt.ylabel('Frecuencia (Hz)')
+plt.title('Evolución de frecuencias por contracción (460)')
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
+
+
+plt.figure(figsize=(10,3))
+plt.plot(df_res['Contracción'], df_res['Ratio_potencia_>200Hz'], '-o', markersize=3)
+plt.xlabel('Contracción')
+plt.ylabel('Fracción potencia >200 Hz')
+plt.title('Reducción del contenido de alta frecuencia ( > 200 Hz )')
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.tight_layout()
+plt.show()
+
+indices_ejemplo = [1, int(n_contr/2), n_contr]
+plt.figure(figsize=(12,6))
+for idx, pos in enumerate(indices_ejemplo, start=1):
+    seg = segmentos[pos-1]
+    nperseg = min(1024, len(seg))
+    f, Pxx = welch(seg, fs=fs, nperseg=nperseg)
+    plt.subplot(3,1,idx)
+    plt.semilogy(f, Pxx, linewidth=0.8)
+    plt.xlim(0, 500)
+    plt.ylabel('PSD')
+    plt.title(f'Contracción {pos} - espectro (Welch)')
+    plt.grid(True, which='both', linestyle='--', alpha=0.5)
+plt.xlabel('Frecuencia [Hz]')
+plt.tight_layout()
+plt.show()
+
+
+print("Resumen estadístico (frecuencia pico):")
+print(df_res['Frecuencia_pico_Hz'].describe())
+
+
+k = max(1, int(0.1 * n_contr))
+prim_mean = np.nanmean(df_res['Frecuencia_media_Hz'][:k])
+ult_mean = np.nanmean(df_res['Frecuencia_media_Hz'][-k:])
+print(f"\nFrecuencia media promedio (primer {k} contr.): {prim_mean:.2f} Hz")
+print(f"Frecuencia media promedio (último {k} contr.): {ult_mean:.2f} Hz")
+if prim_mean > ult_mean:
+    print("Tendencia: disminución de la frecuencia media → indicativo de fatiga.")
+elif prim_mean < ult_mean:
+    print("Tendencia: aumento de la frecuencia media.")
+else:
+    print("Tendencia: sin cambio claro en frecuencia media.")
 ```
 
 
