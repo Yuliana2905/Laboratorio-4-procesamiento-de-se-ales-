@@ -265,6 +265,9 @@ Imagen 4.Señal EMG obtenida
 ### c) Filtro Pasa banda
 
 <img width="999" height="470" alt="image" src="https://github.com/user-attachments/assets/f311368e-7486-42c1-b89b-f0aafe3d5d08" />
+La señal original (en color azul) presenta una amplitud mayor y un nivel medio desplazado hacia valores positivos, lo cual indica la presencia de un componente de corriente continua (DC) y de ruido de baja frecuencia producido por el movimiento o interferencias externas. Además, se observan picos irregulares y variaciones bruscas que dificultan la interpretación de la actividad muscular real.
+
+Por otro lado, la señal filtrada (en color naranja) se encuentra centrada alrededor de cero voltios y presenta una amplitud más estable. El filtrado pasa banda eliminó los componentes de baja frecuencia (<20 Hz), asociados a artefactos por movimiento, y los de alta frecuencia (>450 Hz), relacionados con el ruido electrónico. De esta forma, se conserva únicamente el rango de frecuencia donde se encuentra la información útil del potencial eléctrico muscular.
 
 Este filtrado tiene como objetivo eliminar las componentes que no corresponden a la actividad muscular.
 
