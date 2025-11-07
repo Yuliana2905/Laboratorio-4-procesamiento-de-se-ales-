@@ -476,6 +476,10 @@ Frecuencia media promedio (primer 46 contr.): 48.44 Hz
 Frecuencia media promedio (último 46 contr.): 46.98 Hz
 Tendencia: disminución de la frecuencia media → indicativo de fatiga.
 
+```python
+
+```
+
 
 
 
