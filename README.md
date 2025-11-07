@@ -151,7 +151,7 @@ La señal emulada se adquirió mediante el sistema de adquisición de datos (DAQ
 
 Para cada contracción se realizó el análisis espectral, donde se determinaron los valores de frecuencia media y frecuencia mediana, los cuales fueron organizados en una tabla y graficados para observar su evolución a lo largo de las contracciones.
 
-```
+``` phython
 plt.figure(figsize=(12,3))
 plt.plot(t, data, label="Señal EMG")
 for s, e in segments:
