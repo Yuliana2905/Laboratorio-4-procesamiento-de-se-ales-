@@ -315,7 +315,20 @@ diagnóstica en electromiografía.
 ## Parte B
 
 ## Parte C
-En esta parte se aplico la transformada rapida de fourier a cada contracción tomada en la señal EMG real capturada durante el laboratorio 
+
+El objetivo al aplicar la transformada rápida de Fourier a una señal electromiografía real con el fin de analizar los cambios en el contenido de frecuencia durante múltiples contracciones musculares y determinar como la fatiga muscular afecta la distribución espectral de esta señal.
+Procedimiento.
+ Se trabajo una señal EMG real registrada durante una serie de contracciones musculares voluntarias, el archivo fue cargado en Google Colab
+A partir de los intervalos de tiempo entre estas muestras se estima una frecuencia de muestreo (fs) para así poder reconocer la resolución temporal y espectral de este registro.
+Se aplico un filtro pasa banda de 20 a 450 Hz que corresponde al rango de frecuencias útiles de EMG este con el fin de eliminar ruido de baja frecuencia y altas frecuencias no asociadas con la actividad muscular.
+La señal fue enviada en múltiples segmentos equivalentes, representando diferentes contracciones musculares, cada una de estas fue analizada por separado para observar su comportamiento espectral.
+A cada contracción se le aplico la FFT para obtener el espectro de amplitud entre la frecuencia y la magnitud esto permite visualizar que componentes de frecuencia predominan durante cada una de las contracciones 
+Para cada contracción se identifica la frecuencia con mayor amplitud la cual indica el componente más dominante del espectro, este valor fue comparado entre contracciones iniciales y finales.
+por utlimo se graficaron los espectros de tres contracciones representativas.
+la primera contraccion inicio del esfuerzo
+la segunda contraccion mitad del esfuerzo
+la ultima contraccion fase de fatiga 
+
 
 
 
