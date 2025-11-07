@@ -328,7 +328,11 @@ Para cada contracción se identifica la frecuencia con mayor amplitud la cual in
 por utlimo se graficaron los espectros de tres contracciones representativas.
 la primera contraccion inicio del esfuerzo
 la segunda contraccion mitad del esfuerzo
-la ultima contraccion fase de fatiga 
+la ultima contraccion fase de fatiga
+
+```python
+
+```
 
 
 
